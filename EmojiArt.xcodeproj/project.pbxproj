@@ -14,6 +14,7 @@
 		DCEAAE7528262BF6005177B0 /* EmojiArtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEAAE7428262BF6005177B0 /* EmojiArtTests.swift */; };
 		DCEAAE7F28262BF6005177B0 /* EmojiArtUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEAAE7E28262BF6005177B0 /* EmojiArtUITests.swift */; };
 		DCEAAE8128262BF6005177B0 /* EmojiArtUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEAAE8028262BF6005177B0 /* EmojiArtUITestsLaunchTests.swift */; };
+		DCEAAE9028262D9A005177B0 /* EmojiArtModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEAAE8F28262D9A005177B0 /* EmojiArtModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		DCEAAE7A28262BF6005177B0 /* EmojiArtUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmojiArtUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCEAAE7E28262BF6005177B0 /* EmojiArtUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtUITests.swift; sourceTree = "<group>"; };
 		DCEAAE8028262BF6005177B0 /* EmojiArtUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		DCEAAE8F28262D9A005177B0 /* EmojiArtModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 			children = (
 				DCEAAE6328262BF4005177B0 /* EmojiArtApp.swift */,
 				DCEAAE6528262BF4005177B0 /* ContentView.swift */,
+				DCEAAE8F28262D9A005177B0 /* EmojiArtModel.swift */,
 				DCEAAE6728262BF6005177B0 /* Assets.xcassets */,
 				DCEAAE6928262BF6005177B0 /* Preview Content */,
 			);
@@ -259,6 +262,7 @@
 			files = (
 				DCEAAE6628262BF4005177B0 /* ContentView.swift in Sources */,
 				DCEAAE6428262BF4005177B0 /* EmojiArtApp.swift in Sources */,
+				DCEAAE9028262D9A005177B0 /* EmojiArtModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
