@@ -11,7 +11,7 @@ struct EmojiArtModel {
     var background = Background.blank
     var emojis = [Emoji]()
     
-    struct Emoji : Identifiable {
+    struct Emoji : Identifiable, Hashable { //Hashable for Set
         let text: String
         var x: Int  //NOT CGFloat, Double ! -> UI Independent
         var y: Int
@@ -35,9 +35,4 @@ struct EmojiArtModel {
     
     init() { }
     
-    enum Background {
-        case blank
-        case url
-        case imageData
-    }
 }
