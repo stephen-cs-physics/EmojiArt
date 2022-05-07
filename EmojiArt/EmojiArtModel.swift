@@ -13,8 +13,8 @@ struct EmojiArtModel {
     
     struct Emoji : Identifiable, Hashable { //Hashable for Set
         let text: String
-        var x: Int  //NOT CGFloat, Double ! -> UI Independent
-        var y: Int
+        var x: Int  //offset from the center. NOT CGFloat, Double ! -> UI Independent
+        var y: Int  //offset from the center
         var size: Int
         let id: Int
         
