@@ -33,9 +33,12 @@ class EmojiArtDocument: ObservableObject
         backgroundImage = nil
         switch emojiArt.background {
         case .url(let url):
-            let imageData = try? Data(contentsOf: url)   //ignore error: try? Data(~)
-            if imageData != nil {
-                backgroundImage = UIImage(data: imageData!)
+            DispatchQueue.global(qos: .userInitiated).async {
+                let imageData = try? Data(contentsOf: url)   //ignore error: try? Data(~)
+                if imageData != nil {
+                    self.backgroundImage = UIImage(data: imageData!)    //purple ERROR: Publishing changes from background threads is not allowed; make sure to publish values from the main thread (via operators like receive(on:)) on model updates.
+                    
+                }
             }
         case .imageData(let data):
             backgroundImage = UIImage(data: data)
