@@ -10,7 +10,13 @@ import SwiftUI
 
 class EmojiArtDocument: ObservableObject
 {
-    @Published private(set) var emojiArt: EmojiArtModel
+    @Published private(set) var emojiArt: EmojiArtModel {
+        didSet {    //When model is change
+            if emojiArt.background != oldValue.background {
+                fetchBackgroundImageDataIfNecessary()
+            }
+        }
+    }
     
     init() {
         emojiArt = EmojiArtModel()
@@ -19,15 +25,36 @@ class EmojiArtDocument: ObservableObject
     }
     
     var emojis: [EmojiArtModel.Emoji] { emojiArt.emojis }
-    var backgournd: EmojiArtModel.Background { emojiArt.background }
+    var background: EmojiArtModel.Background { emojiArt.background }
+    
+    @Published var backgroundImage: UIImage?
+    
+    private func fetchBackgroundImageDataIfNecessary() {
+        backgroundImage = nil
+        switch emojiArt.background {
+        case .url(let url):
+            let imageData = try? Data(contentsOf: url)   //ignore error: try? Data(~)
+            if imageData != nil {
+                backgroundImage = UIImage(data: imageData!)
+            }
+        case .imageData(let data):
+            backgroundImage = UIImage(data: data)
+        case .blank:
+            break
+        }
+    }
     
     // MARK: - Intent(s)
-    func setBackgound(_ background: EmojiArtModel.Background) {
+    
+    func setBackground(_ background: EmojiArtModel.Background) {
         emojiArt.background = background
+        print("background set to \(background)")
     }
+    
     func addEmoji(_ emoji: String, at location: (x: Int, y: Int), size: CGFloat) {
         emojiArt.addEmoji(emoji, at: location, size: Int(size))
     }
+    
     func moveEmoji(_ emoji: EmojiArtModel.Emoji, by offset: CGSize) {
         if let index = emojiArt.emojis.index(matching: emoji) {
             emojiArt.emojis[index].x += Int(offset.width)
@@ -39,4 +66,5 @@ class EmojiArtDocument: ObservableObject
             emojiArt.emojis[index].size = Int((CGFloat(emojiArt.emojis[index].size) * scale).rounded(.toNearestOrAwayFromZero))
         }
     }
+
 }

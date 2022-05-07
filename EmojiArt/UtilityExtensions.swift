@@ -16,8 +16,6 @@ extension Collection where Element: Identifiable {
     }
 }
 
-
-
 extension DragGesture.Value {
     var distance: CGSize { location - startLocation }
 }
@@ -47,8 +45,22 @@ extension CGPoint {
 }
 
 
+extension URL {
+    var imageURL: URL {
+        for query in query?.components(separatedBy: "&") ?? [] {
+            let queryComponents = query.components(separatedBy: "=")
+            if queryComponents.count == 2 {
+                if queryComponents[0] == "imgurl", let url = URL(string: queryComponents[1].removingPercentEncoding ?? "") {
+                    return url
+                }
+            }
+        }
+        return baseURL ?? self
+    }
+}
+
 extension Array where Element == NSItemProvider {
-    func loadObject<T>(ofType theType: T.Type, firstOnly: Bool = false, using load: @escaping (T) -> Void) -> Bool where T: NSItemProviderReading {
+    func loadObjects<T>(ofType theType: T.Type, firstOnly: Bool = false, using load: @escaping (T) -> Void) -> Bool where T: NSItemProviderReading {
         if let provider = first(where: { $0.canLoadObject(ofClass: theType) }) {
             provider.loadObject(ofClass: theType) { object, error in
                 if let value = object as? T {
@@ -61,8 +73,7 @@ extension Array where Element == NSItemProvider {
         }
         return false
     }
-    
-    func loadObject<T>(ofType theType: T.Type, firstOnly: Bool = false, using load: @escaping (T) -> Void) -> Bool where T: _ObjectiveCBridgeable, T._ObjectiveCType: NSItemProviderReading {
+    func loadObjects<T>(ofType theType: T.Type, firstOnly: Bool = false, using load: @escaping (T) -> Void) -> Bool where T: _ObjectiveCBridgeable, T._ObjectiveCType: NSItemProviderReading {
         if let provider = first(where: { $0.canLoadObject(ofClass: theType) }) {
             let _ = provider.loadObject(ofClass: theType) { object, error in
                 if let value = object {
@@ -75,7 +86,15 @@ extension Array where Element == NSItemProvider {
         }
         return false
     }
+    func loadFirstObject<T>(ofType theType: T.Type, using load: @escaping (T) -> Void) -> Bool where T: NSItemProviderReading {
+        loadObjects(ofType: theType, firstOnly: true, using: load)
+    }
+    func loadFirstObject<T>(ofType theType: T.Type, using load: @escaping (T) -> Void) -> Bool where T: _ObjectiveCBridgeable, T._ObjectiveCType: NSItemProviderReading {
+        loadObjects(ofType: theType, firstOnly: true, using: load)
+    }
 }
+
+
 
 extension Character {
     var isEmoji: Bool {
