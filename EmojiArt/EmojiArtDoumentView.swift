@@ -41,6 +41,7 @@ struct EmojiArtDoumentView: View {
         }
     }
     
+    //MARK: Drag & Drop
     private func drop(providers: [NSItemProvider], at location: CGPoint, in geometry: GeometryProxy) -> Bool {
         var found = providers.loadObjects(ofType: URL.self) { url in
             document.setBackground(.url(url.imageURL)) //EmojiArtModel.Background.url
@@ -66,6 +67,7 @@ struct EmojiArtDoumentView: View {
         return found
     }
     
+    // MARK: Positioning & Size
     private func position(for emoji: EmojiArtModel.Emoji, in geometry: GeometryProxy) -> CGPoint {
         convertFromEmojiCoordinates((emoji.x, emoji.y), in: geometry)
     }
@@ -91,6 +93,7 @@ struct EmojiArtDoumentView: View {
         CGFloat(emoji.size)
     }
     
+    // MARK: Palette
     var palette: some View {
         ScrollingEmojisView(emojis: testEmojis)
             .font(.system(size: defaultEmojiFontSize))
