@@ -38,6 +38,7 @@ struct EmojiArtDoumentView: View {
                         .position(position(for: emoji, in: geometry))
                 }
             }
+            .clipped()
             .onDrop(of: [.plainText, .url, .image], isTargeted: nil) { providers, location in
                 return drop(providers: providers, at: location, in: geometry)
             }
