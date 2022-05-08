@@ -26,6 +26,9 @@ struct EmojiArtDoumentView: View {
                     OptionalImage(uiImage: document.backgroundImage)
                         .position(convertFromEmojiCoordinates((0, 0), in: geometry))
                 )
+                if document.backgroundImageFetchStatus == .fetching {
+                    ProgressView().scaleEffect(2)
+                }
                 ForEach(document.emojis) { emoji in
                     Text(emoji.text)
                         .font(.system(size: fontSize(for: emoji)))
