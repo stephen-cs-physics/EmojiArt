@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct EmojiArtModel {
+struct EmojiArtModel: Codable {
     var background = Background.blank
-    var emojis = [Emoji]()
+    var emojis = [Emoji]()  //Array is Codable but, struct.. -> add Codable in struct
     
-    struct Emoji : Identifiable, Hashable { //Hashable for Set
+    struct Emoji : Identifiable, Hashable, Codable { //Hashable for Set
         let text: String
         var x: Int  //offset from the center. NOT CGFloat, Double ! -> UI Independent
         var y: Int  //offset from the center
@@ -27,12 +27,17 @@ struct EmojiArtModel {
         }
     }
     
-    private var uniqueEmojiId = 0
-    mutating func addEmoji(_ text: String, at location: (x: Int, y: Int), size: Int) {  //tuple
-        uniqueEmojiId += 1
-        emojis.append(Emoji(text: text, x: location.x, y: location.y, size: size, id: uniqueEmojiId))
+    func json() -> Data {
+        JSONEncoder().encode(self)
+        
     }
     
     init() { }
     
+    private var uniqueEmojiId = 0
+    
+    mutating func addEmoji(_ text: String, at location: (x: Int, y: Int), size: Int) {  //tuple
+        uniqueEmojiId += 1
+        emojis.append(Emoji(text: text, x: location.x, y: location.y, size: size, id: uniqueEmojiId))
+    }
 }
