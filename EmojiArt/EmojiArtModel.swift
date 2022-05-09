@@ -27,8 +27,10 @@ struct EmojiArtModel: Codable {
         }
     }
     
-    func json() -> Data {
-        JSONEncoder().encode(self)
+    //MARK: L11 55:09
+    
+    func json() throws -> Data {
+        return try JSONEncoder().encode(self)
         
     }
     
