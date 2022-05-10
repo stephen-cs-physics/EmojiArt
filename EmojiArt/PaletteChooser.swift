@@ -39,11 +39,12 @@ struct PaletteChooser: View {
     @ViewBuilder
     var contextMenu: some View {
         AnimatedActionButton(title: "Edit", systemImage: "pencil") {
-            editing = true
+//            editing = true  // Way1: Boolean
+            paletteToEdit = store.palette(at: chosenPaletteIndex)   //Way 2
         }
         AnimatedActionButton(title: "New", systemImage: "plus") {
             store.insertPalette(named: "New", emojis: "", at: chosenPaletteIndex)
-            editing = true
+//            editing = true
         }
         AnimatedActionButton(title: "Delete", systemImage: "minus.circle") {
             chosenPaletteIndex =  store.removePalette(at: chosenPaletteIndex)
@@ -73,12 +74,16 @@ struct PaletteChooser: View {
         }
         .id(palette.id)             //add this -> animation working!
         .transition(rollTransition) //not working!
-        .sheet(isPresented: $editing) {
-            PaletteEditor()
+//        .popover(isPresented: $editing) {     //Way 1: Boolean
+//            PaletteEditor(palette: $store.palettes[chosenPaletteIndex])
+//        }
+        .popover(item: $paletteToEdit) { palette in     //Way 2
+            PaletteEditor(palette: $store.palettes[palette])
         }
     }
     
-    @State private var editing = false
+//    @State private var editing = false  //Way 1: Boolean
+    @State private var paletteToEdit: Palette?  //Way 2
     
     var rollTransition: AnyTransition {
         AnyTransition.asymmetric(
@@ -86,8 +91,6 @@ struct PaletteChooser: View {
             removal: .offset(x: 0, y: -emojiFontSize)
         )
     }
-    
-    let testEmojis = "😀😄🦊🍉🍌🍓🍋🍍🥥🎾🎱🏒🪃🚐🚒🦼💿📀💖💘✝️💟☯️☦️🏴🏳️‍🌈🏳️‍⚧️🇺🇳🚩🇬🇭🇬🇦🇬🇲🇳🇷"
 }
 
 struct ScrollingEmojisView: View {
