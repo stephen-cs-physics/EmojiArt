@@ -50,6 +50,7 @@ struct PaletteManager: View {
         }
     }
     var tap: some Gesture {
+        //MARK: - Homework!!
         TapGesture().onEnded { }
     }
 }
