@@ -14,7 +14,8 @@ struct PaletteEditor: View {
     var body: some View {
         Form {
             nameSection
-            addEmojiSection
+            addEmojisSection
+            removeEmojiSection
         }
         .frame(minWidth: 300, minHeight: 350)
     }
@@ -27,7 +28,7 @@ struct PaletteEditor: View {
     
     @State private var emojisToAdd = ""
     
-    var addEmojiSection: some View {
+    var addEmojisSection: some View {
         Section(header: Text("Add Emojis")) {
             TextField("", text: $emojisToAdd) //onCommit: {  }, onEditingChanged: { began in ... }
 //                .keyboardType(.webSearch)
@@ -44,11 +45,29 @@ struct PaletteEditor: View {
                 .removingDuplicateCharacters
         }
     }
+    
+    var removeEmojiSection: some View {
+        Section(header: Text("Remove Emoji")) {
+            let emojis = palette.emojis.removingDuplicateCharacters.map { String($0) }
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 40))] ) {
+                ForEach(emojis, id: \.self) { emoji in
+                    Text(emoji)
+                        .onTapGesture {
+                            withAnimation {
+                                palette.emojis.removeAll(where: { String($0) == emoji })
+                            }
+                        }
+                }
+            }
+        }
+    }
 }
 
 struct PaletteEditor_Previews: PreviewProvider {
     static var previews: some View {
         PaletteEditor(palette: .constant(PaletteStore(named: "Preview").palette(at: 4)))
             .previewLayout(.fixed(width: 300, height: 350))
+        PaletteEditor(palette: .constant(PaletteStore(named: "Preview").palette(at: 4)))
+            .previewLayout(.fixed(width: 300, height: 600))
     }
 }
