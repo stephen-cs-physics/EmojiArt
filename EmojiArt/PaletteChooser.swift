@@ -11,12 +11,46 @@ struct PaletteChooser: View {
     var emojiFontSize: CGFloat = 40
     var emojiFont: Font { .system(size: emojiFontSize) }
     
+    @EnvironmentObject var store: PaletteStore
+    
+    @State private var chosenPaletteIndex = 0
+    
     var body: some View {
-        ScrollingEmojisView(emojis: testEmojis)
-            .font(emojiFont)
+        let palette = store.palette(at: chosenPaletteIndex)
+        HStack {
+            paletteControlButton
+            body(for: store.palette(at: chosenPaletteIndex))
+        }
+        .clipped()  //for not smashing btw paletteConrolBtn & body
     }
     
+    var paletteControlButton: some View {
+        Button {
+            withAnimation {
+                chosenPaletteIndex = (chosenPaletteIndex + 1 ) % store.palettes.count
+            }
+        } label: {
+            Image(systemName: "paintpalette")
+        }
+        .font(emojiFont)
+    }
     
+    func body(for palette: Palette) -> some View {
+        HStack {
+            Text(palette.name)
+            ScrollingEmojisView(emojis: palette.emojis)
+                .font(emojiFont)
+        }
+        .id(palette.id)             //add this -> animation working!
+        .transition(rollTransition) //not working!
+    }
+    
+    var rollTransition: AnyTransition {
+        AnyTransition.asymmetric(
+            insertion: .offset(x:0, y: emojiFontSize),
+            removal: .offset(x: 0, y: -emojiFontSize)
+        )
+    }
     
     let testEmojis = "😀😄🦊🍉🍌🍓🍋🍍🥥🎾🎱🏒🪃🚐🚒🦼💿📀💖💘✝️💟☯️☦️🏴🏳️‍🌈🏳️‍⚧️🇺🇳🚩🇬🇭🇬🇦🇬🇲🇳🇷"
 }
