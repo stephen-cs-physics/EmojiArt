@@ -57,6 +57,9 @@ struct EmojiArtDoumentView: View {
                     break
                 }
             }
+            .onReceive(document.$backgroundImage) { image in        //$~: @Publish publisher. image: latest image
+                zoomToFit(image, in: geometry.size)                 //$document.b...: binding vs. document.$b..: publisher
+            }
             
         }
     }
