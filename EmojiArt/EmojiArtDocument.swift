@@ -90,16 +90,34 @@ class EmojiArtDocument: ObservableObject
         switch emojiArt.background {
         case .url(let url):
             backgroundImageFetchStatus = .fetching
-            
+            backgroundImageFetchCancellable?.cancel()
             //MARK: - [Way 2] Publisher: fetch background image
             let session = URLSession.shared
             let publisher = session.dataTaskPublisher(for: url)
                 .map { (data, urlResponse) in UIImage(data: data) }
-                .replaceError(with: nil)    //error -> nil
+                .replaceError(with: nil)    //error -> nil. <1> if not exist
+                .receive(on: DispatchQueue.main)    //fix below purple error
             
             backgroundImageFetchCancellable = publisher
-                .assign(to: \EmojiArtDocument.backgroundImage, on: self)
+//                .assign(to: \EmojiArtDocument.backgroundImage, on: self)
+//                .sink(  //                                    <1> replaceError is not exist
+//                    receiveCompletion: { result in
+//                    switch result {
+//                    case .finished:
+//                        print("sucess!")
+//                    case .failure(let error):
+//                        print("failed: error = \(error)")
+//                    }
+//                },
+//                      receiveValue: { [weak self] image in
+//                          self?.backgroundImage = image
+//                          self?.backgroundImageFetchStatus = (image != nil) ? .idle : .failed(url)}
+//                )
             
+                .sink { [weak self] image in
+                    self?.backgroundImage = image       //purple ERROR: doing things off the main queue
+                    self?.backgroundImageFetchStatus = (image != nil) ? .idle : .failed(url)
+                }
             
             
             //MARK: - [Way 1] GCD Multi thread: fetch background image
