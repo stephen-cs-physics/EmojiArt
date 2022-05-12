@@ -48,6 +48,7 @@
 		DCBC53242829F5F400AC67E6 /* PaletteChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteChooser.swift; sourceTree = "<group>"; };
 		DCBC5326282A8D3F00AC67E6 /* PaletteEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteEditor.swift; sourceTree = "<group>"; };
 		DCBC5328282AA96D00AC67E6 /* PaletteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteManager.swift; sourceTree = "<group>"; };
+		DCBE533A282D0F5900D9524A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DCC20B11282BD19E00AF6B6C /* EmojiArt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EmojiArt.entitlements; sourceTree = "<group>"; };
 		DCC20B13282BD1BB00AF6B6C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		DCEAAE6028262BF4005177B0 /* EmojiArt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmojiArt.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,6 +126,7 @@
 		DCEAAE6228262BF4005177B0 /* EmojiArt */ = {
 			isa = PBXGroup;
 			children = (
+				DCBE533A282D0F5900D9524A /* Info.plist */,
 				DCC20B11282BD19E00AF6B6C /* EmojiArt.entitlements */,
 				DCBC5328282AA96D00AC67E6 /* PaletteManager.swift */,
 				DCBC5326282A8D3F00AC67E6 /* PaletteEditor.swift */,
@@ -474,6 +476,7 @@
 				DEVELOPMENT_TEAM = V45JYXD6JJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EmojiArt/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -505,6 +508,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EmojiArt/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
