@@ -11,6 +11,7 @@
 		DCBC53252829F5F400AC67E6 /* PaletteChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBC53242829F5F400AC67E6 /* PaletteChooser.swift */; };
 		DCBC5327282A8D3F00AC67E6 /* PaletteEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBC5326282A8D3F00AC67E6 /* PaletteEditor.swift */; };
 		DCBC5329282AA96D00AC67E6 /* PaletteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBC5328282AA96D00AC67E6 /* PaletteManager.swift */; };
+		DCC20B14282BD1BB00AF6B6C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCC20B13282BD1BB00AF6B6C /* CloudKit.framework */; };
 		DCEAAE6428262BF4005177B0 /* EmojiArtApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEAAE6328262BF4005177B0 /* EmojiArtApp.swift */; };
 		DCEAAE6628262BF4005177B0 /* EmojiArtDoumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEAAE6528262BF4005177B0 /* EmojiArtDoumentView.swift */; };
 		DCEAAE6828262BF6005177B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCEAAE6728262BF6005177B0 /* Assets.xcassets */; };
@@ -47,6 +48,8 @@
 		DCBC53242829F5F400AC67E6 /* PaletteChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteChooser.swift; sourceTree = "<group>"; };
 		DCBC5326282A8D3F00AC67E6 /* PaletteEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteEditor.swift; sourceTree = "<group>"; };
 		DCBC5328282AA96D00AC67E6 /* PaletteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteManager.swift; sourceTree = "<group>"; };
+		DCC20B11282BD19E00AF6B6C /* EmojiArt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EmojiArt.entitlements; sourceTree = "<group>"; };
+		DCC20B13282BD1BB00AF6B6C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		DCEAAE6028262BF4005177B0 /* EmojiArt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmojiArt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCEAAE6328262BF4005177B0 /* EmojiArtApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtApp.swift; sourceTree = "<group>"; };
 		DCEAAE6528262BF4005177B0 /* EmojiArtDoumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtDoumentView.swift; sourceTree = "<group>"; };
@@ -69,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCC20B14282BD1BB00AF6B6C /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +93,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DCC20B12282BD1BB00AF6B6C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DCC20B13282BD1BB00AF6B6C /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DCEAAE5728262BF4005177B0 = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +108,7 @@
 				DCEAAE7328262BF6005177B0 /* EmojiArtTests */,
 				DCEAAE7D28262BF6005177B0 /* EmojiArtUITests */,
 				DCEAAE6128262BF4005177B0 /* Products */,
+				DCC20B12282BD1BB00AF6B6C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -112,6 +125,7 @@
 		DCEAAE6228262BF4005177B0 /* EmojiArt */ = {
 			isa = PBXGroup;
 			children = (
+				DCC20B11282BD19E00AF6B6C /* EmojiArt.entitlements */,
 				DCBC5328282AA96D00AC67E6 /* PaletteManager.swift */,
 				DCBC5326282A8D3F00AC67E6 /* PaletteEditor.swift */,
 				DCBC53242829F5F400AC67E6 /* PaletteChooser.swift */,
@@ -452,9 +466,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = EmojiArt/EmojiArt.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EmojiArt/Preview Content\"";
+				DEVELOPMENT_TEAM = V45JYXD6JJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -480,9 +496,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = EmojiArt/EmojiArt.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EmojiArt/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
