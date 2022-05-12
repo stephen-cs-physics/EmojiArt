@@ -58,11 +58,14 @@ struct EmojiArtDoumentView: View {
                 }
             }
             .onReceive(document.$backgroundImage) { image in        //$~: @Publish publisher. image: latest image
-                zoomToFit(image, in: geometry.size)                 //$document.b...: binding vs. document.$b..: publisher
+                if autozoom {
+                    zoomToFit(image, in: geometry.size)                 //$document.b...: binding vs. document.$b..: publisher
+                }
             }
-            
         }
     }
+    
+    @State private var autozoom = false
     
     @State private var alertToShow: IdentifiableAlert?
     
@@ -79,6 +82,7 @@ struct EmojiArtDoumentView: View {
     //MARK: Drag & Drop
     private func drop(providers: [NSItemProvider], at location: CGPoint, in geometry: GeometryProxy) -> Bool {
         var found = providers.loadObjects(ofType: URL.self) { url in
+            autozoom = true
             document.setBackground(.url(url.imageURL)) //EmojiArtModel.Background.url
         }
         if !found {
@@ -129,7 +133,9 @@ struct EmojiArtDoumentView: View {
         CGFloat(emoji.size)
     }
     
-    @State private var steadyStatePanOffset: CGSize = CGSize.zero
+    //MARK: - Panning
+    @SceneStorage("EmojiArtDocumentView.steadyStatePanOffset")  //RawRepresentable
+    private var steadyStatePanOffset: CGSize = CGSize.zero
     @GestureState private var gesturePanOffset: CGSize = CGSize.zero
     
     private var panOffset: CGSize {
@@ -146,7 +152,10 @@ struct EmojiArtDoumentView: View {
             }
     }
     
-    @State private var steadyStateZoomScale: CGFloat = 1
+    //MARK: - Zooming
+    @SceneStorage("EmojiArtDocumentView.steadyStateZoomScale")
+    private var steadyStateZoomScale: CGFloat = 1
+    
     @GestureState private var gestureZoomScale: CGFloat = 1
     
     private var zoomScale: CGFloat {
