@@ -64,6 +64,12 @@ struct EmojiArtDoumentView: View {
                     zoomToFit(image, in: geometry.size)                 //$document.b...: binding vs. document.$b..: publisher
                 }
             }
+            .toolbar {
+                UndoButton(
+                    undo: undoManager?.optionalUndoMenuItemTitle,
+                    redo: undoManager?.optionalRedoMenuItemTitle
+                )
+            }
         }
     }
     
