@@ -12,7 +12,7 @@ struct EmojiArtApp: App {
     @StateObject var document = EmojiArtDocument()
     @StateObject var paletteStore = PaletteStore(named: "Default")
     
-    var body: some Scene {
+    var body: some Scene {    //iPad can have two different Scene! -> diff Scene share the VM
         WindowGroup {
             EmojiArtDoumentView(document: document)
                 .environmentObject(paletteStore)
