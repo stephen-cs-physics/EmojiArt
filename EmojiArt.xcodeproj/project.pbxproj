@@ -12,6 +12,7 @@
 		DCBC5327282A8D3F00AC67E6 /* PaletteEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBC5326282A8D3F00AC67E6 /* PaletteEditor.swift */; };
 		DCBC5329282AA96D00AC67E6 /* PaletteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBC5328282AA96D00AC67E6 /* PaletteManager.swift */; };
 		DCC20B14282BD1BB00AF6B6C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCC20B13282BD1BB00AF6B6C /* CloudKit.framework */; };
+		DCD18A9F282E8A96004E9CBF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD18A9E282E8A96004E9CBF /* Camera.swift */; };
 		DCEAAE6428262BF4005177B0 /* EmojiArtApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEAAE6328262BF4005177B0 /* EmojiArtApp.swift */; };
 		DCEAAE6628262BF4005177B0 /* EmojiArtDoumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEAAE6528262BF4005177B0 /* EmojiArtDoumentView.swift */; };
 		DCEAAE6828262BF6005177B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCEAAE6728262BF6005177B0 /* Assets.xcassets */; };
@@ -51,6 +52,7 @@
 		DCBE533A282D0F5900D9524A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DCC20B11282BD19E00AF6B6C /* EmojiArt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EmojiArt.entitlements; sourceTree = "<group>"; };
 		DCC20B13282BD1BB00AF6B6C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		DCD18A9E282E8A96004E9CBF /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		DCEAAE6028262BF4005177B0 /* EmojiArt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmojiArt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCEAAE6328262BF4005177B0 /* EmojiArtApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtApp.swift; sourceTree = "<group>"; };
 		DCEAAE6528262BF4005177B0 /* EmojiArtDoumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtDoumentView.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 		DCEAAE6228262BF4005177B0 /* EmojiArt */ = {
 			isa = PBXGroup;
 			children = (
+				DCD18A9E282E8A96004E9CBF /* Camera.swift */,
 				DCBE533A282D0F5900D9524A /* Info.plist */,
 				DCC20B11282BD19E00AF6B6C /* EmojiArt.entitlements */,
 				DCBC5328282AA96D00AC67E6 /* PaletteManager.swift */,
@@ -308,6 +311,7 @@
 				DCEAAE6428262BF4005177B0 /* EmojiArtApp.swift in Sources */,
 				DCEAAE982826343F005177B0 /* UtilityExtensions.swift in Sources */,
 				DCEAAE9628263211005177B0 /* EmojiArtDocument.swift in Sources */,
+				DCD18A9F282E8A96004E9CBF /* Camera.swift in Sources */,
 				DCEAAE9028262D9A005177B0 /* EmojiArtModel.swift in Sources */,
 				DCEAAE942826311A005177B0 /* EmojiArtModel.Background.swift in Sources */,
 				DCBC53252829F5F400AC67E6 /* PaletteChooser.swift in Sources */,
