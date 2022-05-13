@@ -69,8 +69,15 @@ struct EmojiArtDoumentView: View {
                     undo: undoManager?.optionalUndoMenuItemTitle,
                     redo: undoManager?.optionalRedoMenuItemTitle
                 )
+                AnimatedActionButton(title: "Paste Background", systemImage: "doc.on.clipboard") {
+                    pasteBackground()
+                }
             }
         }
+    }
+    
+    private func pasteBackground() {
+        
     }
     
     @State private var autozoom = false
