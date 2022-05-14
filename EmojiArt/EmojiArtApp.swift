@@ -9,10 +9,13 @@ import SwiftUI
 
 @main
 struct EmojiArtApp: App {
-    let document = EmojiArtDocument()
-    var body: some Scene {
-        WindowGroup {
-            EmojiArtDoumentView(document: document)
+//    @StateObject var document = EmojiArtDocument()
+    @StateObject var paletteStore = PaletteStore(named: "Default")
+    
+    var body: some Scene {    //iPad can have two different Scene! -> diff Scene share the VM
+        DocumentGroup(newDocument: { EmojiArtDocument() }) { config in
+            EmojiArtDoumentView(document: config.document)
+                .environmentObject(paletteStore)
         }
     }
 }

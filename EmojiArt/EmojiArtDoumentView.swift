@@ -10,23 +10,24 @@ import SwiftUI
 struct EmojiArtDoumentView: View {
     @ObservedObject var document: EmojiArtDocument
     
-    let defaultEmojiFontSize: CGFloat = 40
+    @Environment(\.undoManager) var undoManager
+    
+    @ScaledMetric var defaultEmojiFontSize: CGFloat = 40
     
     var body: some View {
         VStack(spacing: 0) {
             documentBody
-            palette
+            PaletteChooser(emojiFontSize: defaultEmojiFontSize)
         }
     }
     
     var documentBody: some View {
         GeometryReader { geometry in
             ZStack {
-                Color.white.overlay(
+                Color.white
                     OptionalImage(uiImage: document.backgroundImage)
                         .scaleEffect(zoomScale)
                         .position(convertFromEmojiCoordinates((0, 0), in: geometry))
-                )
                     .gesture(doubleTapToZoom(in: geometry.size))
                 if document.backgroundImageFetchStatus == .fetching {
                     ProgressView().scaleEffect(2)
@@ -45,20 +46,114 @@ struct EmojiArtDoumentView: View {
             .gesture(panGesture().simultaneously(with: zoomGesture()))  //simultaneously or exclusively
 //            .gesture(zoomGesture())
 //            .gesture(panGesture())  //DO NOT!!! -> may work but....
-            
-            
+            .alert(item: $alertToShow) { alertToShow in
+                //return alert
+                alertToShow.alert()
+            }
+            .onChange(of: document.backgroundImageFetchStatus) { status in
+                switch status {
+                case .failed(let url):
+                    showBackgroundImageFetchFailedAlert(url)
+                default:
+                    break
+                }
+            }
+            .onReceive(document.$backgroundImage) { image in        //$~: @Publish publisher. image: latest image
+                if autozoom {
+                    zoomToFit(image, in: geometry.size)                 //$document.b...: binding vs. document.$b..: publisher
+                }
+            }
+            .compactableToolbar {
+                AnimatedActionButton(title: "Paste Background", systemImage: "doc.on.clipboard") {
+                    pasteBackground()
+                }
+                if Camera.isAvailable {
+                    AnimatedActionButton(title: "Take Photo", systemImage: "camera") {
+                        backgroundPicker = .camera
+                    }
+                }
+                if PhotoLibrary.isAvailable {
+                    AnimatedActionButton(title: "Search Photos", systemImage: "photo") {
+                        backgroundPicker = .library
+                    }
+                }
+                if let undoManager = undoManager {
+                    if undoManager.canUndo {
+                        AnimatedActionButton(title: undoManager.undoActionName, systemImage: "arrow.uturn.backward") {
+                            undoManager.undo()
+                        }
+                    }
+                    if undoManager.canRedo {
+                        AnimatedActionButton(title: undoManager.redoActionName, systemImage: "arrow.uturn.forward") {
+                            undoManager.redo()
+                        }
+                    }
+                }
+            }
+            .sheet(item: $backgroundPicker) { pickerType in
+                switch pickerType {
+                case .camera: Camera(handlePickedImage: { image in handlePickerBackgroundImage(image) })
+                case .library: PhotoLibrary(handlePickedImage: { image in handlePickerBackgroundImage(image) })
+                }
+            }
         }
+    }
+    
+    private func handlePickerBackgroundImage(_ image: UIImage?) {
+        autozoom = true
+        if let imageData = image?.jpegData(compressionQuality: 1.0) {
+            document.setBackground(.imageData(imageData), undoManager: undoManager)
+        }
+        backgroundPicker = nil
+    }
+    
+    @State private var backgroundPicker: BackgroundPickerType?
+    
+    enum BackgroundPickerType: String, Identifiable{
+        case camera
+        case library
+//        var id: BackgroundPickerType { self }   //this is good when associated value is present (withoud String extend
+        var id: String { rawValue }
+    }
+    
+    private func pasteBackground() {
+        autozoom = true
+        if let imageData = UIPasteboard.general.image?.jpegData(compressionQuality: 1.0) {
+            document.setBackground(.imageData(imageData), undoManager: undoManager)
+        } else if let url = UIPasteboard.general.url?.imageURL {
+            document.setBackground(.url(url), undoManager: undoManager)
+        } else {
+            alertToShow = IdentifiableAlert(
+                title: "Paste Background",
+                message: "There is no image currently on the pasteboard."
+            )
+        }
+    }
+    
+    @State private var autozoom = false
+    
+    @State private var alertToShow: IdentifiableAlert?
+    
+    private func showBackgroundImageFetchFailedAlert(_ url: URL) {
+        alertToShow = IdentifiableAlert(id: "fetch failed: " + url.absoluteString, alert: {
+            Alert(
+                title: Text("Background Image Fetch"),
+                message: Text("Couldn't load image from \(url)"),
+                dismissButton: .default(Text("OK"))
+            )
+        })
     }
     
     //MARK: Drag & Drop
     private func drop(providers: [NSItemProvider], at location: CGPoint, in geometry: GeometryProxy) -> Bool {
         var found = providers.loadObjects(ofType: URL.self) { url in
-            document.setBackground(.url(url.imageURL)) //EmojiArtModel.Background.url
+            autozoom = true
+            document.setBackground(.url(url.imageURL), undoManager: undoManager) //EmojiArtModel.Background.url
         }
         if !found {
             found = providers.loadObjects(ofType: UIImage.self) { image in
                 if let data = image.jpegData(compressionQuality: 1.0) {
-                    document.setBackground(.imageData(data))
+                    document.setBackground(.imageData(data), undoManager: undoManager)
                 }
             }
         }
@@ -68,7 +163,8 @@ struct EmojiArtDoumentView: View {
                     document.addEmoji(
                         String(emoji),
                         at: convertToEmojiCoordinates(location, in: geometry),
-                        size: defaultEmojiFontSize / zoomScale
+                        size: defaultEmojiFontSize / zoomScale,
+                        undoManager: undoManager
                     )
                 }
                 
@@ -103,7 +199,9 @@ struct EmojiArtDoumentView: View {
         CGFloat(emoji.size)
     }
     
-    @State private var steadyStatePanOffset: CGSize = CGSize.zero
+    //MARK: - Panning
+    @SceneStorage("EmojiArtDocumentView.steadyStatePanOffset")  //RawRepresentable
+    private var steadyStatePanOffset: CGSize = CGSize.zero
     @GestureState private var gesturePanOffset: CGSize = CGSize.zero
     
     private var panOffset: CGSize {
@@ -120,7 +218,10 @@ struct EmojiArtDoumentView: View {
             }
     }
     
-    @State private var steadyStateZoomScale: CGFloat = 1
+    //MARK: - Zooming
+    @SceneStorage("EmojiArtDocumentView.steadyStateZoomScale")
+    private var steadyStateZoomScale: CGFloat = 1
+    
     @GestureState private var gestureZoomScale: CGFloat = 1
     
     private var zoomScale: CGFloat {
@@ -154,30 +255,6 @@ struct EmojiArtDoumentView: View {
         }
     }
     
-    // MARK: Palette
-    var palette: some View {
-        ScrollingEmojisView(emojis: testEmojis)
-            .font(.system(size: defaultEmojiFontSize))
-    }
-
-    
-    let testEmojis = "😀😄🦊🍉🍌🍓🍋🍍🥥🎾🎱🏒🪃🚐🚒🦼💿📀💖💘✝️💟☯️☦️🏴🏳️‍🌈🏳️‍⚧️🇺🇳🚩🇬🇭🇬🇦🇬🇲🇳🇷"
-}
-
-struct ScrollingEmojisView: View {
-    let emojis: String
-    
-    var body: some View {
-        ScrollView(.horizontal) {
-            HStack {
-                ForEach(emojis.map{ String($0) }, id: \.self) { emoji in
-                    Text(emoji)
-                        .onDrag { NSItemProvider(object: emoji as NSString) }    //async
-                    
-                }
-            }
-        }
-    }
 }
 
 
